@@ -2,6 +2,8 @@
 
 [SQLFluff](https://pypi.org/project/sqlfluff/) (A SQL linter and auto-formatter for Humans) extension for [coc.nvim](https://github.com/neoclide/coc.nvim)
 
+<img width="780" alt="coc-sqlfluff-demo" src="https://user-images.githubusercontent.com/188642/117741969-a6bc3200-b23e-11eb-9481-83e6fe71ee3d.gif">
+
 ## Features
 
 - Lint
