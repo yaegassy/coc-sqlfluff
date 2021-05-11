@@ -8,6 +8,7 @@
 
 - Lint
 - Format
+- Code Action
 - Built-in installer
 
 ## Install
