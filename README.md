@@ -88,7 +88,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
 
 ## Thanks
 
-- (sqlfluff/sqlfluff)[https://github.com/sqlfluff/sqlfluff]
+- [sqlfluff/sqlfluff](https://github.com/sqlfluff/sqlfluff)
 
 ## License
 
