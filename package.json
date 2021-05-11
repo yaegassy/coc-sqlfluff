@@ -1,0 +1,110 @@
+{
+  "name": "coc-sqlfluff",
+  "version": "0.0.1",
+  "sqlfluffVersion": "0.5.3",
+  "description": "SQLFluff (A SQL linter and auto-formatter for Humans) extension for coc.nvim",
+  "author": "yaegassy <yosstools@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "coc.nvim",
+    "vim",
+    "neovim",
+    "sql",
+    "jinja-sql",
+    "linter",
+    "formatter"
+  ],
+  "engines": {
+    "coc": "^0.0.80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaegassy/coc-sqlfluff"
+  },
+  "scripts": {
+    "lint": "eslint src --ext ts",
+    "clean": "rimraf lib",
+    "watch": "node esbuild.js --watch",
+    "build": "node esbuild.js",
+    "prepare": "node esbuild.js"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "semi": true
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22",
+    "@types/rimraf": "^3.0.0",
+    "@types/which": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "coc.nvim": "^0.0.80",
+    "esbuild": "^0.8.42",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2",
+    "which": "^2.0.2"
+  },
+  "activationEvents": [
+    "onLanguage:sql",
+    "onLanguage:jinja-sql"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "coc-sqlfluff configuration",
+      "properties": {
+        "sqlfluff.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable coc-sqlfluff extension"
+        },
+        "sqlfluff.commandPath": {
+          "type": "string",
+          "default": "",
+          "description": "The path to the sqlfluff command (Absolute path)"
+        },
+        "sqlfluff.builtin.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Python 3.x path (Absolute path) to be used for built-in install"
+        },
+        "sqlfluff.lintOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Lint file on opening"
+        },
+        "sqlfluff.lintOnChange": {
+          "type": "boolean",
+          "default": true,
+          "description": "Lint file on change"
+        },
+        "sqlfluff.lintOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Lint file on save"
+        },
+        "sqlfluff.formatEnable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the document formatter is enabled or not."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "sqlfluff.install",
+        "title": "Install sqlfluff"
+      },
+      {
+        "command": "sqlfluff.fix",
+        "title": "Run sqlfluff fix file"
+      }
+    ]
+  }
+}
