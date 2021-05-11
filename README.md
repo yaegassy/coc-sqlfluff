@@ -81,6 +81,12 @@ SQLFluff will look for the following files in order. Later files will (if found)
     - Windows: `~/AppData/Local/coc/extensions/coc-sqlfluff-data/sqlfluff/venv/Scripts/sqlfluff.exe`
 - `sqlfluff.fix`: Run sqlfluff fix file
 
+## Code Actions
+
+- `Ignoring Errors for current line (-- noqa)`
+- `Ignoring Errors for current line (-- noqa: disable=all)`
+- `Ignoring Errors for current line (-- noqa: enable=all)`
+
 ## Related coc.nvim extension
 
 - [fannheyward/coc-sql](https://github.com/fannheyward/coc-sql) by Lint(node-sql-parser) and Format(sql-formatter)
