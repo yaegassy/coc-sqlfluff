@@ -57,7 +57,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
 
 - <https://docs.sqlfluff.com/en/stable/configuration.html>
 
-### Ignoring Errors & Files
+### Ignoring Errors & Files (-- noqa, .sqlfluffignore)
 
 **REF**:
 
