@@ -41,9 +41,7 @@ You can also run the installation command manually.
 :CocComannd sqlfluff.install
 ```
 
-## SQLFluff configuration
-
-### Configration(setup.cfg, tox.ini, pep8.ini, .sqlfluff)
+## SQLFluff configuration file (setup.cfg, tox.ini, pep8.ini, .sqlfluff)
 
 SQLFluff is able to read project-specific default values for its command line options, or from a configuration file.
 
@@ -57,12 +55,6 @@ SQLFluff will look for the following files in order. Later files will (if found)
 **REF**:
 
 - <https://docs.sqlfluff.com/en/stable/configuration.html>
-
-### Ignoring Errors & Files (-- noqa, .sqlfluffignore)
-
-**REF**:
-
-- <https://docs.sqlfluff.com/en/stable/configuration.html#ignoring-errors-files>
 
 ## Configuration options
 
