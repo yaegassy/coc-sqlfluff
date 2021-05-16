@@ -15,7 +15,9 @@
 
 **CocInstall**:
 
-> TODO
+```vim
+:CocInstall coc-sqlfluff
+```
 
 **vim-plug**:
 
