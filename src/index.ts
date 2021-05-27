@@ -43,7 +43,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const outputChannel = window.createOutputChannel('sqlfluff');
 
-  const pythonCommand = getPythonPath(extensionConfig);
+  const isRealpath = true;
+  const pythonCommand = getPythonPath(extensionConfig, isRealpath);
 
   subscriptions.push(
     commands.registerCommand('sqlfluff.install', async () => {
@@ -203,23 +204,27 @@ function whichCmd(cmd: string): string {
   }
 }
 
-function getPythonPath(config: WorkspaceConfiguration): string {
+function getPythonPath(config: WorkspaceConfiguration, isRealpath?: boolean): string {
   let pythonPath = config.get<string>('builtin.pythonPath', '');
   if (pythonPath) {
     return pythonPath;
   }
 
   try {
-    which.sync('python3');
-    pythonPath = 'python3';
+    pythonPath = which.sync('python3');
+    if (isRealpath) {
+      pythonPath = fs.realpathSync(pythonPath);
+    }
     return pythonPath;
   } catch (e) {
     // noop
   }
 
   try {
-    which.sync('python');
-    pythonPath = 'python';
+    pythonPath = which.sync('python');
+    if (isRealpath) {
+      pythonPath = fs.realpathSync(pythonPath);
+    }
     return pythonPath;
   } catch (e) {
     // noop
