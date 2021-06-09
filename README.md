@@ -43,7 +43,7 @@ You can also run the installation command manually.
 :CocComannd sqlfluff.install
 ```
 
-## SQLFluff configuration file (setup.cfg, tox.ini, pep8.ini, .sqlfluff)
+## SQLFluff configuration file (setup.cfg, tox.ini, pep8.ini, .sqlfluff, pyproject.toml)
 
 SQLFluff is able to read project-specific default values for its command line options, or from a configuration file.
 
@@ -53,6 +53,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
 1. `tox.ini`
 1. `pep8.ini`
 1. `.sqlfluff`
+1. `pyproject.toml`
 
 **REF**:
 
