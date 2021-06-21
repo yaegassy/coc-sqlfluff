@@ -68,6 +68,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
 - `sqlfluff.lintOnChange`: Lint file on change, default: `true`
 - `sqlfluff.lintOnSave`: Lint file on save, default: `true`
 - `sqlfluff.formatEnable`: Whether the document formatter is enabled or not, default: `true`
+- `sqlfluff.linter.ignoreParsing`: Whether the sql linter should ignore parsing errors, default: `true`
 
 ## Commands
 

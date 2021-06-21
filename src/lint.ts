@@ -50,11 +50,16 @@ export class LintEngine {
     // Use shell
     const opts = { cwd, shell: true };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const extensionConfig = workspace.getConfiguration('sqlfluff');
 
     args.push('lint');
     args.push('--format', 'json');
+
+    const ignoreParsing = extensionConfig.get<boolean>('linter.ignoreParsing', true);
+    if (ignoreParsing) {
+      args.push('--ignore', 'parsing');
+    }
+
     args.push('-');
 
     this.outputChannel.appendLine(`${'#'.repeat(10)} sqlfluff lint\n`);
