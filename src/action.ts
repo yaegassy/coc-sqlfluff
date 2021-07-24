@@ -35,10 +35,11 @@ export class SqlfluffCodeActionProvider implements CodeActionProvider {
     const codeActions: CodeAction[] = [];
 
     /** Ignoring Errors for current line */
-    if (range.start.line === range.end.line && range.start.character === 0 && context.diagnostics.length > 0) {
+    if (this.lineRange(range) && context.diagnostics.length > 0) {
       const line = doc.getline(range.start.line);
-      if (line && !line.startsWith('--') && line.length === range.end.character) {
-        const edit = TextEdit.replace(range, line + ' -- noqa');
+      this.outputChannel.append(line);
+      if (line && line.length && !line.startsWith('--')) {
+        const edit = TextEdit.replace(range, `${line} -- noqa${range.start.line + 1 === range.end.line ? '\n' : ''}`);
         codeActions.push({
           title: 'Ignoring Errors for current line (-- noqa)',
           edit: {
@@ -48,7 +49,10 @@ export class SqlfluffCodeActionProvider implements CodeActionProvider {
           },
         });
 
-        const disableAllEdit = TextEdit.replace(range, line + ' -- noqa: disable=all');
+        const disableAllEdit = TextEdit.replace(
+          range,
+          `${line} -- noqa: disable=all${range.start.line + 1 === range.end.line ? '\n' : ''}`
+        );
         codeActions.push({
           title: 'Ignoring Errors for current line (-- noqa: disable=all)',
           edit: {
@@ -58,7 +62,11 @@ export class SqlfluffCodeActionProvider implements CodeActionProvider {
           },
         });
 
-        const enableAllEdit = TextEdit.replace(range, line + ' -- noqa: enable=all');
+        const enableAllEdit = TextEdit.replace(
+          range,
+          `${line} -- noqa: enable=all${range.start.line + 1 === range.end.line ? '\n' : ''}`
+        );
+
         codeActions.push({
           title: 'Ignoring Errors for current line (-- noqa: enable=all)',
           edit: {
@@ -71,5 +79,12 @@ export class SqlfluffCodeActionProvider implements CodeActionProvider {
     }
 
     return codeActions;
+  }
+
+  private lineRange(r: Range): boolean {
+    return (
+      (r.start.line + 1 === r.end.line && r.start.character === 0 && r.end.character === 0) ||
+      (r.start.line === r.end.line && r.start.character === 0)
+    );
   }
 }
