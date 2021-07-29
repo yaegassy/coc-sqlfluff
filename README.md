@@ -80,6 +80,18 @@ SQLFluff will look for the following files in order. Later files will (if found)
 
 ## Code Actions
 
+**Example key mapping (Code Action related)**:
+
+```vim
+nmap <silent> ga <Plug>(coc-codeaction-line)
+```
+
+**Usage**:
+
+In the line with diagnostic message, enter the mapped key (e.g. `ga`) and you will see a list of code actions that can be performed.
+
+**Actions**:
+
 - `Ignoring Errors for current line (-- noqa)`
 - `Ignoring Errors for current line (-- noqa: disable=all)`
 - `Ignoring Errors for current line (-- noqa: enable=all)`
