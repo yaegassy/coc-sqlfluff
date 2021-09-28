@@ -108,6 +108,9 @@ export class LintEngine {
           }
 
           self.collection.set(textDocument.uri, diagnostics);
+        } else {
+          // MEMO: Dealing with cases where the diagnosis is 0 but the signature remains.
+          self.collection.set(textDocument.uri, null);
         }
         resolve();
       };
