@@ -44,7 +44,7 @@ export async function doFormat(
   }
 
   const fileName = Uri.parse(document.uri).fsPath;
-  const text = document.getText(range);
+  const originalText = document.getText(range);
 
   const args: string[] = [];
   const opts = { cwd: path.dirname(fileName) };
@@ -60,6 +60,7 @@ export async function doFormat(
   outputChannel.appendLine(`Run: ${toolPath} ${args.join(' ')}`);
 
   return new Promise((resolve) => {
+    let newText = '';
     const cps = cp.spawn(toolPath, args, opts);
 
     cps.on('error', (err: Error) => {
@@ -69,7 +70,7 @@ export async function doFormat(
     });
 
     if (cps.pid) {
-      cps.stdin.write(text);
+      cps.stdin.write(originalText);
       cps.stdin.end();
 
       cps.stderr.on('data', (data: Buffer) => {
@@ -77,11 +78,11 @@ export async function doFormat(
         outputChannel.appendLine(`${data}`);
 
         // rollback
-        resolve(text);
+        resolve(originalText);
       });
 
       cps.stdout.on('data', (data: Buffer) => {
-        outputChannel.appendLine(`\n==== STDOUT ===\n`);
+        outputChannel.appendLine(`\n==== STDOUT (data) ===\n`);
         outputChannel.appendLine(`${data}`);
 
         // **MEMO**:
@@ -90,11 +91,18 @@ export async function doFormat(
         // ----
         // Temporary patch
         if (data.toString().startsWith('WARNING')) {
-          return;
+          // rollback
+          resolve(originalText);
         }
 
+        newText = newText + data.toString();
+      });
+
+      cps.stdout.on('close', () => {
+        outputChannel.appendLine(`\n==== STDOUT (close) ===\n`);
+        outputChannel.appendLine(`${newText}`);
         // auto-fixed
-        resolve(data.toString());
+        resolve(newText);
       });
     }
   });
