@@ -94,8 +94,10 @@ export class LintEngine {
         if (sqlfluffDiagnostics && sqlfluffDiagnostics.length > 0) {
           for (const d of sqlfluffDiagnostics) {
             for (const v of d.violations) {
-              const startPosition = Position.create(v.line_no - 1, v.line_pos - 1);
-              const endPosition = Position.create(v.line_no - 1, v.line_pos - 1);
+              const lineNo = v.line_no === 0 ? v.line_no : v.line_no - 1;
+              const linePos = v.line_pos === 0 ? v.line_pos : v.line_pos - 1;
+              const startPosition = Position.create(lineNo, linePos);
+              const endPosition = Position.create(lineNo, linePos);
 
               diagnostics.push({
                 range: Range.create(startPosition, endPosition),
