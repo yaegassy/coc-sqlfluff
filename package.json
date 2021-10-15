@@ -1,7 +1,7 @@
 {
   "name": "coc-sqlfluff",
   "version": "0.2.14",
-  "sqlfluffVersion": "0.6.9",
+  "sqlfluffVersion": "0.7.0",
   "description": "SQLFluff (A SQL linter and auto-formatter for Humans) extension for coc.nvim",
   "author": "yaegassy <yosstools@gmail.com>",
   "license": "MIT",
