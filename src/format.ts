@@ -6,6 +6,7 @@ import {
   TextDocument,
   TextEdit,
   Uri,
+  window,
   workspace,
 } from 'coc.nvim';
 
@@ -77,8 +78,16 @@ export async function doFormat(
         outputChannel.appendLine(`\n==== STDERR ===\n`);
         outputChannel.appendLine(`${data}`);
 
-        // rollback
-        resolve(originalText);
+        let existsAllowedWarning = false;
+        if (data.toString().match(/Unfixable violations detected/)) {
+          existsAllowedWarning = true;
+          window.showWarningMessage(`sqlfluff: ${JSON.stringify(data.toString().trim())}`);
+        }
+
+        if (!existsAllowedWarning) {
+          // rollback
+          resolve(originalText);
+        }
       });
 
       cps.stdout.on('data', (data: Buffer) => {
