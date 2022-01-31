@@ -43,6 +43,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const outputChannel = window.createOutputChannel('sqlfluff');
 
+  context.subscriptions.push(
+    commands.registerCommand('sqlfluff.showOutput', () => {
+      if (outputChannel) {
+        outputChannel.show();
+      }
+    })
+  );
+
   const isRealpath = true;
   const pythonCommand = getPythonPath(extensionConfig, isRealpath);
 

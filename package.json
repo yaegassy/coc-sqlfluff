@@ -109,6 +109,10 @@
       {
         "command": "sqlfluff.fix",
         "title": "Run sqlfluff fix file"
+      },
+      {
+        "command": "sqlfluff.showOutput",
+        "title": "Show sqlfluff output channel"
       }
     ]
   }
