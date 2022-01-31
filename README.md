@@ -77,6 +77,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
     - Mac/Linux: `~/.config/coc/extensions/coc-sqlfluff-data/sqlfluff/venv/bin/sqlfluff`
     - Windows: `~/AppData/Local/coc/extensions/coc-sqlfluff-data/sqlfluff/venv/Scripts/sqlfluff.exe`
 - `sqlfluff.fix`: Run sqlfluff fix file
+- `sqlfluff.showOutput`: Show sqlfluff output channel
 
 ## Code Actions
 
