@@ -40,7 +40,7 @@ The first time you use coc-sqlfluff, if sqlfluff is not detected, you will be pr
 You can also run the installation command manually.
 
 ```vim
-:CocComannd sqlfluff.install
+:CocCommand sqlfluff.install
 ```
 
 ## SQLFluff configuration file (setup.cfg, tox.ini, pep8.ini, .sqlfluff, pyproject.toml)
