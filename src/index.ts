@@ -189,11 +189,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 async function installWrapper(pythonCommand: string, context: ExtensionContext) {
   const msg = 'Install/Upgrade "sqlfluff"?';
-  context.workspaceState;
-
-  let ret = 0;
-  ret = await window.showQuickpick(['Yes', 'Cancel'], msg);
-  if (ret === 0) {
+  const ret = await window.showPrompt(msg);
+  if (ret) {
     try {
       await sqlfluffInstall(pythonCommand, context);
     } catch (e) {
