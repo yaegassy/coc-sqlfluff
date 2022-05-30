@@ -60,6 +60,11 @@ export class LintEngine {
       args.push('--ignore', 'parsing');
     }
 
+    const dialect = extensionConfig.get<string>('dialect', 'ansi');
+    if (dialect) {
+      args.push('--dialect', dialect);
+    }
+
     args.push('-');
 
     this.outputChannel.appendLine(`${'#'.repeat(10)} sqlfluff lint\n`);

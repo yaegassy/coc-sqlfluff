@@ -52,6 +52,12 @@ export async function doFormat(
 
   args.push('fix');
   args.push('--force');
+
+  const dialect = extensionConfig.get<string>('dialect', 'ansi');
+  if (dialect) {
+    args.push('--dialect', dialect);
+  }
+
   args.push('-');
 
   // ---- Output the command to be executed to channel log. ----

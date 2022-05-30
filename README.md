@@ -64,11 +64,12 @@ SQLFluff will look for the following files in order. Later files will (if found)
 - `sqlfluff.enable`: Enable coc-sqlfluff extension, default: `true`
 - `sqlfluff.commandPath`: The path to the sqlfluff command (Absolute path), default: `""`
 - `sqlfluff.builtin.pythonPath`: Python 3.x path (Absolute path) to be used for built-in install, default: `""`
+- `sqlfluff.dialect`: The dialect of SQL to lint, valid option: `["ansi", "bigquery", "exasol", "hive", "mysql", "postgres", "redshift", "snowflake", "spark3", "sqlite", "tsql", "teradata"]`, default: `"ansi"`
+- `sqlfluff.linter.ignoreParsing`: Whether the sql linter should ignore parsing errors, default: `true`
 - `sqlfluff.lintOnOpen`: Lint file on opening, default: `true`
 - `sqlfluff.lintOnChange`: Lint file on change, default: `true`
 - `sqlfluff.lintOnSave`: Lint file on save, default: `true`
 - `sqlfluff.formatEnable`: Whether the document formatter is enabled or not, default: `true`
-- `sqlfluff.linter.ignoreParsing`: Whether the sql linter should ignore parsing errors, default: `true`
 
 ## Commands
 
@@ -96,11 +97,6 @@ In the line with diagnostic message, enter the mapped key (e.g. `ga`) and you wi
 - `Ignoring Errors for current line (-- noqa)`
 - `Ignoring Errors for current line (-- noqa: disable=all)`
 - `Ignoring Errors for current line (-- noqa: enable=all)`
-
-## Related coc.nvim extension
-
-- [fannheyward/coc-sql](https://github.com/fannheyward/coc-sql) by Lint(node-sql-parser) and Format(sql-formatter)
-- [kristijanhusak/vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion) | [coc-db](https://www.npmjs.com/package/coc-db)
 
 ## Thanks
 

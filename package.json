@@ -74,6 +74,30 @@
           "default": "",
           "description": "Python 3.x path (Absolute path) to be used for built-in install"
         },
+        "sqlfluff.dialect": {
+          "type": "string",
+          "enum": [
+            "ansi",
+            "bigquery",
+            "exasol",
+            "hive",
+            "mysql",
+            "postgres",
+            "redshift",
+            "snowflake",
+            "spark3",
+            "sqlite",
+            "tsql",
+            "teradata"
+          ],
+          "default": "ansi",
+          "description": "The dialect of SQL to lint"
+        },
+        "sqlfluff.linter.ignoreParsing": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the sql linter should ignore parsing errors."
+        },
         "sqlfluff.lintOnOpen": {
           "type": "boolean",
           "default": true,
@@ -93,11 +117,6 @@
           "type": "boolean",
           "default": true,
           "description": "Whether the document formatter is enabled or not."
-        },
-        "sqlfluff.linter.ignoreParsing": {
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the sql linter should ignore parsing errors."
         }
       }
     },
