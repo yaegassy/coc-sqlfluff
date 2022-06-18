@@ -64,7 +64,7 @@ SQLFluff will look for the following files in order. Later files will (if found)
 - `sqlfluff.enable`: Enable coc-sqlfluff extension, default: `true`
 - `sqlfluff.commandPath`: The path to the sqlfluff command (Absolute path), default: `""`
 - `sqlfluff.builtin.pythonPath`: Python 3.x path (Absolute path) to be used for built-in install, default: `""`
-- `sqlfluff.dialect`: The dialect of SQL to lint, valid option: `["ansi", "bigquery", "exasol", "hive", "mysql", "postgres", "redshift", "snowflake", "spark3", "sqlite", "tsql", "teradata"]`, default: `"ansi"`
+- `sqlfluff.dialect`: The dialect of SQL to lint, valid option: `["ansi", "bigquery", "clickhouse", "databricks", "db2", "exasol", "hive", "mysql", "oracle", "postgres", "redshift", "snowflake", "soql", "sparksql", "sqlite", "teradata", "tsql"]`, default: `"ansi"`
 - `sqlfluff.linter.ignoreParsing`: Whether the sql linter should ignore parsing errors, default: `true`
 - `sqlfluff.lintOnOpen`: Lint file on opening, default: `true`
 - `sqlfluff.lintOnChange`: Lint file on change, default: `true`
