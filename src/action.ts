@@ -1,11 +1,11 @@
 import {
-  TextDocument,
   CodeAction,
   CodeActionContext,
   CodeActionProvider,
   languages,
   OutputChannel,
   Range,
+  TextDocument,
   TextEdit,
   workspace,
 } from 'coc.nvim';

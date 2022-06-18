@@ -15,10 +15,10 @@ import path from 'path';
 
 import which from 'which';
 
+import { SqlfluffCodeActionProvider } from './action';
+import SqlfluffFormattingEditProvider, { doFormat, fullDocumentRange } from './format';
 import { sqlfluffInstall } from './installer';
 import { LintEngine } from './lint';
-import SqlfluffFormattingEditProvider, { doFormat, fullDocumentRange } from './format';
-import { SqlfluffCodeActionProvider } from './action';
 
 let formatterHandler: undefined | Disposable;
 
