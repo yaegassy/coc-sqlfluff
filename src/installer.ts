@@ -28,10 +28,10 @@ export async function sqlfluffInstall(pythonCommand: string, context: ExtensionC
 
   rimraf.sync(pathVenv);
   try {
-    window.showMessage(`Install sqlfluff...`);
+    window.showInformationMessage(`Install sqlfluff...`);
     await exec(installCmd);
     statusItem.hide();
-    window.showMessage(`sqlfluff: installed!`);
+    window.showInformationMessage(`sqlfluff: installed!`);
   } catch (error) {
     statusItem.hide();
     window.showErrorMessage(`sqlfluff: install failed. | ${error}`);
