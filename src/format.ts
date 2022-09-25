@@ -28,7 +28,7 @@ export async function doFormat(
 
   const extensionConfig = workspace.getConfiguration('sqlfluff');
 
-  let toolPath = extensionConfig.get('sqlfluff.commandPath', '');
+  let toolPath = extensionConfig.get('commandPath', '');
   if (!toolPath) {
     if (
       fs.existsSync(path.join(context.storagePath, 'sqlfluff', 'venv', 'Scripts', 'sqlfluff.exe')) ||
