@@ -87,7 +87,9 @@ export async function doFormat(
         let existsAllowedWarning = false;
         if (data.toString().match(/Unfixable violations detected/)) {
           existsAllowedWarning = true;
-          window.showWarningMessage(`sqlfluff: ${JSON.stringify(data.toString().trim())}`);
+          if (!extensionConfig.get<boolean>('formatIgnoreStderrAlert')) {
+            window.showWarningMessage(`sqlfluff: ${JSON.stringify(data.toString().trim())}`);
+          }
         }
 
         if (!existsAllowedWarning) {
