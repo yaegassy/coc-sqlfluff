@@ -141,9 +141,16 @@
         "title": "Run sqlfluff fix file"
       },
       {
+        "command": "sqlfluff.format",
+        "title": "Run sqlfluff format file (Available in sqlfluff `v2.0.0` and later)"
+      },
+      {
         "command": "sqlfluff.showOutput",
         "title": "Show sqlfluff output channel"
       }
     ]
+  },
+  "dependencies": {
+    "semver": "^7.3.8"
   }
 }
