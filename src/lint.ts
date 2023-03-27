@@ -2,6 +2,7 @@ import {
   Diagnostic,
   DiagnosticCollection,
   DiagnosticSeverity,
+  ExtensionContext,
   languages,
   OutputChannel,
   Position,
@@ -25,6 +26,49 @@ interface SqlfluffDiagnosticsViolations {
   line_no: number;
   line_pos: number;
   description: string;
+}
+
+export async function register(context: ExtensionContext, outputChannel: OutputChannel, sqlfluffPath: string) {
+  const engine = new LintEngine(sqlfluffPath, outputChannel);
+
+  const onOpen = workspace.getConfiguration('sqlfluff').get<boolean>('lintOnOpen');
+  if (onOpen) {
+    workspace.documents.map(async (doc) => {
+      await engine.lint(doc.textDocument);
+    });
+
+    workspace.onDidOpenTextDocument(
+      async (e) => {
+        await engine.lint(e);
+      },
+      null,
+      context.subscriptions
+    );
+  }
+
+  const onChange = workspace.getConfiguration('sqlfluff').get<boolean>('lintOnChange');
+  if (onChange) {
+    workspace.onDidChangeTextDocument(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async (_e) => {
+        const doc = await workspace.document;
+        await engine.lint(doc.textDocument);
+      },
+      null,
+      context.subscriptions
+    );
+  }
+
+  const onSave = workspace.getConfiguration('sqlfluff').get<boolean>('lintOnSave');
+  if (onSave) {
+    workspace.onDidSaveTextDocument(
+      async (e) => {
+        await engine.lint(e);
+      },
+      null,
+      context.subscriptions
+    );
+  }
 }
 
 export class LintEngine {

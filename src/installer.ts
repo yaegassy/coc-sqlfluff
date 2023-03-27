@@ -38,3 +38,17 @@ export async function sqlfluffInstall(pythonCommand: string, context: ExtensionC
     throw new Error();
   }
 }
+
+export async function installWrapper(pythonCommand: string, context: ExtensionContext) {
+  const msg = 'Install/Upgrade "sqlfluff"?';
+  const ret = await window.showPrompt(msg);
+  if (ret) {
+    try {
+      await sqlfluffInstall(pythonCommand, context);
+    } catch (e) {
+      return;
+    }
+  } else {
+    return;
+  }
+}

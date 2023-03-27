@@ -2,7 +2,6 @@ import {
   CodeAction,
   CodeActionContext,
   CodeActionProvider,
-  DocumentSelector,
   ExtensionContext,
   languages,
   OutputChannel,
@@ -11,17 +10,14 @@ import {
   workspace,
 } from 'coc.nvim';
 
+import { documentSelector } from '../constant';
+
 type SqlfluffWebDocuments = {
   code: string | number;
   url: string;
 };
 
 export function register(context: ExtensionContext, outputChannel: OutputChannel) {
-  const documentSelector: DocumentSelector = [
-    { language: 'sql', scheme: 'file' },
-    { language: 'jinja-sql', scheme: 'file' },
-  ];
-
   context.subscriptions.push(
     languages.registerCodeActionProvider(
       documentSelector,
