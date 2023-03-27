@@ -24,12 +24,11 @@ export async function register(
   sqlfluffPath: string | undefined,
   sqlfulffVersion?: string | undefined
 ) {
-  const document = await workspace.document;
-
   if (sqlfluffPath && sqlfulffVersion) {
     if (semver.gte(sqlfulffVersion, '2.0.0')) {
       context.subscriptions.push(
         commands.registerCommand('sqlfluff.format', async () => {
+          const document = await workspace.document;
           const code = await doFormat(context, outputChannel, document.textDocument);
           const edits = [TextEdit.replace(fullDocumentRange(document.textDocument), code)];
           if (edits) {
