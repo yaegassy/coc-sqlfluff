@@ -20,6 +20,8 @@ import SqlfluffFormattingEditProvider, { doFormat, fullDocumentRange } from './f
 import { sqlfluffInstall } from './installer';
 import { LintEngine } from './lint';
 
+import * as showWebDocumentationCodeActionFeature from './actions/showWebDocumentation';
+
 let formatterHandler: undefined | Disposable;
 
 function disposeHandlers(): void {
@@ -185,6 +187,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const actionProvider = new SqlfluffCodeActionProvider(outputChannel);
   context.subscriptions.push(languages.registerCodeActionProvider(languageSelector, actionProvider, 'sqlfluff'));
+
+  showWebDocumentationCodeActionFeature.register(context, outputChannel);
 }
 
 async function installWrapper(pythonCommand: string, context: ExtensionContext) {

@@ -98,6 +98,7 @@ In the line with diagnostic message, enter the mapped key (e.g. `ga`) and you wi
 - `Ignoring Errors for current line (-- noqa)`
 - `Ignoring Errors for current line (-- noqa: disable=all)`
 - `Ignoring Errors for current line (-- noqa: enable=all)`
+- `Show web documentation for {RULE_ID}`
 
 ## Thanks
 
