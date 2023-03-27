@@ -1,5 +1,5 @@
 import {
-  DocumentFormattingEditProvider,
+  commands,
   ExtensionContext,
   OutputChannel,
   Range,
@@ -11,10 +11,25 @@ import {
 } from 'coc.nvim';
 
 import cp from 'child_process';
-import fs from 'fs';
 import path from 'path';
 
-import { SUPPORT_LANGUAGES } from './constant';
+import { fullDocumentRange } from '../common';
+import { SUPPORT_LANGUAGES } from '../constant';
+import { getSqlfluffPath } from '../tool';
+
+export async function register(context: ExtensionContext, outputChannel: OutputChannel) {
+  context.subscriptions.push(
+    commands.registerCommand('sqlfluff.fix', async () => {
+      const doc = await workspace.document;
+
+      const code = await doFormat(context, outputChannel, doc.textDocument, undefined);
+      const edits = [TextEdit.replace(fullDocumentRange(doc.textDocument), code)];
+      if (edits) {
+        await doc.applyEdits(edits);
+      }
+    })
+  );
+}
 
 export async function doFormat(
   context: ExtensionContext,
@@ -28,20 +43,9 @@ export async function doFormat(
 
   const extensionConfig = workspace.getConfiguration('sqlfluff');
 
-  let toolPath = extensionConfig.get('commandPath', '');
-  if (!toolPath) {
-    if (
-      fs.existsSync(path.join(context.storagePath, 'sqlfluff', 'venv', 'Scripts', 'sqlfluff.exe')) ||
-      fs.existsSync(path.join(context.storagePath, 'sqlfluff', 'venv', 'bin', 'sqlfluff'))
-    ) {
-      if (process.platform === 'win32') {
-        toolPath = path.join(context.storagePath, 'sqlfluff', 'venv', 'Scripts', 'sqlfluff.exe');
-      } else {
-        toolPath = path.join(context.storagePath, 'sqlfluff', 'venv', 'bin', 'sqlfluff');
-      }
-    } else {
-      throw 'Unable to find the sqlfluff command.';
-    }
+  const sqlfluffPath = getSqlfluffPath(context);
+  if (!sqlfluffPath) {
+    throw 'Unable to find the sqlfluff command.';
   }
 
   const fileName = Uri.parse(document.uri).fsPath;
@@ -64,11 +68,11 @@ export async function doFormat(
   outputChannel.appendLine(`${'#'.repeat(10)} sqlfluff fix\n`);
   outputChannel.appendLine(`Cwd: ${opts.cwd}`);
   outputChannel.appendLine(`File: ${fileName}`);
-  outputChannel.appendLine(`Run: ${toolPath} ${args.join(' ')}`);
+  outputChannel.appendLine(`Run: ${sqlfluffPath} ${args.join(' ')}`);
 
   return new Promise((resolve) => {
     let newText = '';
-    const cps = cp.spawn(toolPath, args, opts);
+    const cps = cp.spawn(sqlfluffPath, args, opts);
 
     cps.on('error', (err: Error) => {
       outputChannel.appendLine(`\n==== ERROR ===\n`);
@@ -124,34 +128,3 @@ export async function doFormat(
     }
   });
 }
-
-export function fullDocumentRange(document: TextDocument): Range {
-  const lastLineId = document.lineCount - 1;
-  const doc = workspace.getDocument(document.uri);
-
-  return Range.create({ character: 0, line: 0 }, { character: doc.getline(lastLineId).length, line: lastLineId });
-}
-
-class SqlfluffFormattingEditProvider implements DocumentFormattingEditProvider {
-  public _context: ExtensionContext;
-  public _outputChannel: OutputChannel;
-
-  constructor(context: ExtensionContext, outputChannel: OutputChannel) {
-    this._context = context;
-    this._outputChannel = outputChannel;
-  }
-
-  public provideDocumentFormattingEdits(document: TextDocument): Promise<TextEdit[]> {
-    return this._provideEdits(document, undefined);
-  }
-
-  private async _provideEdits(document: TextDocument, range?: Range): Promise<TextEdit[]> {
-    const code = await doFormat(this._context, this._outputChannel, document, range);
-    if (!range) {
-      range = fullDocumentRange(document);
-    }
-    return [TextEdit.replace(range, code)];
-  }
-}
-
-export default SqlfluffFormattingEditProvider;

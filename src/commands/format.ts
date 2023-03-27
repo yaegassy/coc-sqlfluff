@@ -1,30 +1,30 @@
 import {
+  commands,
   ExtensionContext,
   OutputChannel,
   Range,
   TextDocument,
+  TextEdit,
   Uri,
   window,
   workspace,
-  commands,
-  TextEdit,
 } from 'coc.nvim';
 
 import cp from 'child_process';
-import fs from 'fs';
 import path from 'path';
 
 import semver from 'semver';
 
+import { fullDocumentRange } from '../common';
 import { SUPPORT_LANGUAGES } from '../constant';
+import { getSqlfluffPath } from '../tool';
 
 export async function register(
   context: ExtensionContext,
   outputChannel: OutputChannel,
-  sqlfluffPath: string | undefined,
   sqlfulffVersion?: string | undefined
 ) {
-  if (sqlfluffPath && sqlfulffVersion) {
+  if (sqlfulffVersion) {
     if (semver.gte(sqlfulffVersion, '2.0.0')) {
       context.subscriptions.push(
         commands.registerCommand('sqlfluff.format', async () => {
@@ -52,20 +52,9 @@ export async function doFormat(
 
   const extensionConfig = workspace.getConfiguration('sqlfluff');
 
-  let toolPath = extensionConfig.get('commandPath', '');
-  if (!toolPath) {
-    if (
-      fs.existsSync(path.join(context.storagePath, 'sqlfluff', 'venv', 'Scripts', 'sqlfluff.exe')) ||
-      fs.existsSync(path.join(context.storagePath, 'sqlfluff', 'venv', 'bin', 'sqlfluff'))
-    ) {
-      if (process.platform === 'win32') {
-        toolPath = path.join(context.storagePath, 'sqlfluff', 'venv', 'Scripts', 'sqlfluff.exe');
-      } else {
-        toolPath = path.join(context.storagePath, 'sqlfluff', 'venv', 'bin', 'sqlfluff');
-      }
-    } else {
-      throw 'Unable to find the sqlfluff command.';
-    }
+  const sqlfluffPath = getSqlfluffPath(context);
+  if (!sqlfluffPath) {
+    throw 'Unable to find the sqlfluff command.';
   }
 
   const fileName = Uri.parse(document.uri).fsPath;
@@ -87,11 +76,11 @@ export async function doFormat(
   outputChannel.appendLine(`${'#'.repeat(10)} sqlfluff format\n`);
   outputChannel.appendLine(`Cwd: ${opts.cwd}`);
   outputChannel.appendLine(`File: ${fileName}`);
-  outputChannel.appendLine(`Run: ${toolPath} ${args.join(' ')}`);
+  outputChannel.appendLine(`Run: ${sqlfluffPath} ${args.join(' ')}`);
 
   return new Promise((resolve) => {
     let newText = '';
-    const cps = cp.spawn(toolPath, args, opts);
+    const cps = cp.spawn(sqlfluffPath, args, opts);
 
     cps.on('error', (err: Error) => {
       outputChannel.appendLine(`\n==== ERROR ===\n`);
@@ -141,11 +130,4 @@ export async function doFormat(
       });
     }
   });
-}
-
-export function fullDocumentRange(document: TextDocument): Range {
-  const lastLineId = document.lineCount - 1;
-  const doc = workspace.getDocument(document.uri);
-
-  return Range.create({ character: 0, line: 0 }, { character: doc.getline(lastLineId).length, line: lastLineId });
 }

@@ -2,6 +2,7 @@ import {
   CodeAction,
   CodeActionContext,
   CodeActionProvider,
+  ExtensionContext,
   languages,
   OutputChannel,
   Range,
@@ -10,7 +11,19 @@ import {
   workspace,
 } from 'coc.nvim';
 
-export class SqlfluffCodeActionProvider implements CodeActionProvider {
+import { documentSelector } from '../constant';
+
+export function register(context: ExtensionContext, outputChannel: OutputChannel) {
+  context.subscriptions.push(
+    languages.registerCodeActionProvider(
+      documentSelector,
+      new IgnoreCommentCodeActionProvider(outputChannel),
+      'sqlfluff'
+    )
+  );
+}
+
+export class IgnoreCommentCodeActionProvider implements CodeActionProvider {
   private readonly source = 'sqlfluff';
   private diagnosticCollection = languages.createDiagnosticCollection(this.source);
   private outputChannel: OutputChannel;
