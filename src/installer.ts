@@ -23,7 +23,7 @@ export async function sqlfluffInstall(pythonCommand: string, context: ExtensionC
   statusItem.show();
 
   const installCmd =
-    `${pythonCommand} -m venv ${pathVenv} && ` +
+    `"${pythonCommand}" -m venv ${pathVenv} && ` +
     `${pathVenvPython} -m pip install -U pip sqlfluff==${SQLFLUFF_VERSION}`;
 
   rimraf.sync(pathVenv);
